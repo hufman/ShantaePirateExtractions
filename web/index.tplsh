@@ -1,0 +1,65 @@
+#!/bin/bash
+DEFAULT_VIEW_SIZE="2x"
+DEFAULT_DL_SIZE="3x"
+VIEW_SIZES="1x 2x 3x 4x"
+DL_SIZES="1x 2x 3x 4x"
+
+select_box_options() {
+  selected="$1"
+  options="$2"
+  for option in $options; do
+    if [ "$option" = "$selected" ]; then
+      echo "<option selected value=\"$option\">$option</option>"
+    else
+      echo "<option value=\"$option\">$option</option>"
+    fi
+  done
+}
+
+cat <<EOF
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+.image_container { display: inline-block; }
+.image_container img { width: 100%; }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="script.js"></script>
+<title>Shantae and the Pirate's Curse GIFs</title>
+</head>
+<body>
+<h1>Shantae and the Pirate's Curse</h1>
+<p><label>View Size</label>
+<select name="view_size" id="view_size">
+EOF
+select_box_options $DEFAULT_VIEW_SIZE "$VIEW_SIZES"
+cat <<EOF
+</select>
+</p>
+<p><label>Download Size</label>
+<select name="download_size" id="download_size">
+EOF
+select_box_options $DEFAULT_DL_SIZE "$DL_SIZES"
+cat <<EOF
+</select>
+</p>
+<div id="images">
+EOF
+for image in images/*gif; do
+echo "$image" | grep -q -E -e '-[0-9]+x\.gif' && continue
+dlimg=`echo "$image" | sed 's|\(-*[0-9]*x\)\?\.gif$|-'$DEFAULT_DL_SIZE'.gif|'`
+cat <<EOF
+  <div class="image_container">
+    <a href="$dlimg">
+      <img src="$image"/>
+    </a>
+  </div>
+EOF
+done
+cat <<EOF
+</div>
+</body>
+</html>
+EOF
