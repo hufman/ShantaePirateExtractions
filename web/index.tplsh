@@ -23,7 +23,7 @@ cat <<EOF
 <meta charset="UTF-8">
 <style type="text/css">
 .image_container { display: inline-block; }
-.image_container img { width: 100%; }
+.image_container img { width: 100%; image-rendering: pixelated; }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="script.js"></script>
