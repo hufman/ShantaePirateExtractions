@@ -1,6 +1,7 @@
 #!/bin/bash
+shopt -s nullglob
 SIZES="1 2 3 4"
-for img in images/*; do
+for img in images/*.gif images/*/*.gif; do
   echo "$img" | grep -q -E -e '-[0-9]+x\.gif' && continue
   for size in $SIZES; do
     dstimg=`echo "$img" | sed 's|\(-*[0-9]*x\)\?\.gif$|-'$size'x.gif|'`
